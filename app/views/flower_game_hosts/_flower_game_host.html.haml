@@ -1,0 +1,4 @@
+%tr{id: "host_#{flower_game_host.id}"}
+  %td= flower_game_host
+  %td= flower_game_host.bet_range
+  %td= link_to "Open chat", open_chat_flower_game_host_path(flower_game_host), remote: true

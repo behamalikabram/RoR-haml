@@ -1,0 +1,21 @@
+!!!
+%html
+  %head
+    %title= "Duel All Day - #1 Rs Gambling"
+    %link{href: 'http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700,600', rel: 'stylesheet', type: 'text/css'}
+    %link{href: "/favicon.png?v=2", rel: "icon", type: "image/png"}/
+    %link{href: "/favicon.png?v=2", rel: "shortcut icon", type: "image/png"}/
+    = stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true
+    = javascript_include_tag "application", "data-turbolinks-track" => true
+    = csrf_meta_tags
+  %body{class: ("homepage" if @on_home_page)}
+    = render 'layouts/header'
+    = render 'layouts/flash_messages'
+    / - cls = ("dropdown-active" unless user_signed_in?)
+    #main-container.container{style: "margin-top: 20px;"}= yield
+    .clear
+    = render 'layouts/notifications'
+    = render 'layouts/footer'
+    = render 'layouts/page_modal'
+    - if @flower_host
+      = render 'flower_game_hosts/chat', host: @flower_host, chat: @flower_chat, messages: @flower_chat_messages

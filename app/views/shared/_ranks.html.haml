@@ -1,0 +1,26 @@
+.ranks-info
+  .info-header Official Ranks
+  .block
+    .rank-image
+      = image_tag 'chat_icons/admin.png'
+      Admin
+    .rank-image
+      = image_tag 'chat_icons/moderator.png'
+      Mod
+    .rank-image
+      = image_tag 'chat_icons/host.png'
+      Host
+    .rank-image
+      = image_tag 'chat_icons/trader.png'
+      Trader
+  .info-header Earnable Ranks
+  .block
+    - bets = User::STRING_BET_RANKS_MAP.values
+    - (bets.length/3).times do |t| 
+      .img-block
+        - max = (t + 1)*3 - 1
+        - min = max-2
+        - bets[min..max].each_with_index do |bet, i|
+          = image_tag "chat_icons/user-#{i+min+1}.png"
+          Bet 
+          #{bet}

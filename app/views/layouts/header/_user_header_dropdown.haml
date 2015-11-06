@@ -1,0 +1,27 @@
+.user-dropdown
+  - display_admin_section = current_user.can_read?(Ticket)
+  %section.title
+    - if display_admin_section
+      .admin-info Admin Section
+    .user-info My Account
+  %section
+    Username:
+    .info.username= current_user.to_s
+  %section
+    = link_to "Balance:", wallet_path
+    .info= number_with_delimiter(current_user.wallet.value, delimiter: ",")
+    .clear
+  - if display_admin_section
+    .admin-info
+      %section
+        = link_to "Tickets", tickets_path
+        %span.tickets-count= @tickets_count
+        .info.info-button= link_to "View", tickets_path, class: "btn btn-primary"
+      - if current_user.is_admin?
+        %section
+          = link_to "Admin", rails_admin_path
+  .user-info
+    %section= link_to "Leaderboard", leaderboard_path, class: "page-modal-show", remote: true
+    %section= link_to "About us", info_path, class: "page-modal-show", remote: true
+    %section= link_to "Help", help_path, class: "page-modal-show", remote: true
+  %section= link_to "Desposit", deposit_path

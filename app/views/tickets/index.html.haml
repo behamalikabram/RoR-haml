@@ -1,0 +1,38 @@
+.row
+  .col-xs-12
+    %h1{style: "margin-bottom: 20px;"} New tickets:
+    - if @tickets.any?
+      %table.tickets{cellspacing: "20"}
+        %thead
+          %th Opened
+          %th Type
+          %th Message
+          %th Amount
+          %th User
+          %th
+          %th
+        %tbody
+          - @tickets.each do |t|
+            %tr
+              %td
+                = time_ago_in_words(t.created_at)
+                ago
+              %td= t.type
+              %td= t.message
+              %td
+                = number_with_delimiter(t.amount, delimiter: " ")
+                = t.currency
+              %td= t.user.to_s
+              %td 
+                - if t.chat
+                  - if current_user.can_read?(t.chat)
+                    = link_to "Open chat", chat_path(t.chat) 
+                  - else 
+                    This chat is occupied
+                - elsif current_user.can_accept?(t)
+                  = link_to "Open chat", chats_path(ticket_id: t.id), method: :post
+              - if current_user.can_cancel?(t)
+                %td= link_to "Cancel", cancel_ticket_path(t)
+    - else 
+      %p No new tickets.
+    %p You can see all tickets by navigating into admin panel

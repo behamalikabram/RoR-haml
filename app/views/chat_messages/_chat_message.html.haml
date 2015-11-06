@@ -1,0 +1,4 @@
+.message{class: "#{chat_message.chat_role}-message"}
+  %span.timestamp{'data-time' => chat_message.created_at.as_json}
+  %span.from #{chat_message.user}:
+  %span.message-content{class: chat_message.type}= chat_message

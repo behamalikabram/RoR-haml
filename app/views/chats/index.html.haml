@@ -1,0 +1,13 @@
+.row
+  .col-xs-12
+    - if @chats.any?
+      %h1{style: "margin-bottom: 20px;"} You have #{pluralize(@chats.count, "new chat")}!
+      %table.tickets{cellspacing: "20"}
+        %thead
+          %th Opened
+          %th Host
+          %th Ticket
+          %th 
+        %tbody= render @chats
+    - else 
+      %h3 Nothing to see here yet!

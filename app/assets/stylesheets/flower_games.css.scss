@@ -1,0 +1,92 @@
+// Place all the styles related to the flower_games controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.flower-game-info {
+  .info-block {
+    background-color: #e4e4e4; 
+    margin-top: 20px;
+    min-height: 200px;
+    color: black;
+    >span {
+      margin: 8px 5px 5px 5px;
+      display: block;
+    }
+    >span.flower-info {
+      display: inline;
+    }
+    span.winner {
+      color: #CC6600;
+    }
+    span.green {
+      color: green;
+    }
+    span.red {
+      color: red;
+    }
+  }
+}
+
+.host-info {
+  padding: 20px;
+  margin: 15px 0;
+  border-top: 1px solid white;
+  border-bottom: 1px solid white;
+  font-size: 18px;
+  .host-fields {
+    width: 80%;
+  }
+}
+.host-fields, .host-buttons {
+  margin: 0 auto;
+}
+.host-buttons {
+  width: 80%;
+  position: relative;
+  left: 17px;
+  .btn-group {
+    margin-top: 5px;
+    margin-left: 10px;
+  }
+}
+
+
+#flower-game-error {
+  color: red;
+  font-size: 16px;
+}
+
+// Flower colors 
+.red {
+  color: #880000;
+}
+
+.orange {
+  color: orange;
+}
+
+.yellow {
+  color: yellow;
+}
+
+.blue {
+  color: #6d7cb4;
+}
+
+.purple {
+  color: purple;
+}
+
+.pastel {
+  color: #FFBBFF;
+}
+
+.rainbow {
+}
+
+.white {
+  color: white;
+}
+
+.black {
+  color: black;
+}

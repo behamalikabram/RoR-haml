@@ -1,0 +1,59 @@
+- provide :title, "Leaderboard"
+
+.tabs
+  %ul.tab-links
+    .col-xs-4
+      %li.active
+        %a{:href => "#tab1"} Most Won All Time
+    .col-xs-4
+      %li
+        %a{:href => "#tab2"} Most Deposited Weekly
+    .col-xs-4
+      %li
+        %a{:href => "#tab3"} Most Won Weekly
+  .tab-content
+    #tab1.tab.active
+      .col-xs-12
+        .leaderboard-wrapper
+          .leaderboard-header Most Profitable Players
+          %table.leaderboard-table{cellspacing: '20'}
+            %thead
+              %tr
+                %th #
+                %th Player
+                %th Profit
+            %tbody
+    #tab2.tab
+      .col-xs-12
+        .leaderboard-wrapper
+          .leaderboard-header Most deposited weekly
+          %table.leaderboard-table{cellspacing: "20"}
+            %tbody
+              - @week_depositers.each do |l, a|
+                = render "leader", leader: l, amount: a
+    #tab3.tab
+      .col-xs-12
+        .leaderboard-wrapper
+          .leaderboard-header Most won weekly
+          %table.leaderboard-table{cellspacing: "20"}
+            %tbody
+              - @week_leaders.each do |l, a|
+                = render "leader", leader: l, amount: a
+
+
+
+
+  :javascript
+    jQuery(document).ready(function() {
+      jQuery('.tabs .tab-links a').on('click', function(e)  {
+        var currentAttrValue = jQuery(this).attr('href');
+
+        // Show/Hide Tabs
+        jQuery('.tabs ' + currentAttrValue).show().siblings().hide();
+
+        // Change/remove current tab to active
+        jQuery(this).parent('li').addClass('active').parent().siblings().find("li").removeClass('active');
+
+        e.preventDefault();
+      });
+    });

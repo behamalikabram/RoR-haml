@@ -1,0 +1,105 @@
+.row{id: "dice-game-info-#{@game.id}"}
+  .col-xs-6.dice-game-info{style: "font-size: 16px;"}
+    = link_to "Back to Dicing", dice_games_path, class: "btn btn-primary"
+    - if current_user.can_join?(@game)
+      = link_to "Join", join_dice_game_path(@game), class: "btn btn-success", id: "join-link", remote: true
+    - dice_style = 'display: none;' unless current_user.can_leave?(@game)
+    = link_to "Leave", leave_dice_game_path(@game), class: "btn btn-danger", "data-confirm" => "Are you sure?", id: "leave-link", style: dice_style
+    - dice_style = ('display: none;' unless current_user.can_roll?(@game))
+    = link_to "Roll Dice", roll_dice_game_path(@game), class: "btn btn-info roll-link", id: "roll-link", style: dice_style, remote: true
+    - if current_user.is_admin?
+      = link_to "Win!", roll_dice_game_path(@game, cheat: true), class: "btn btn-info roll-link", style: dice_style, remote: true
+    - info_style = "display:none" if !@game.new? or !@game.users.include?(current_user)
+    %br
+    %br
+    - if @game.new?
+      %div 
+        Participants:
+        %span.capacity= @game.users_capacity
+    %hr
+    %div
+      Bet:
+      %span.bet= @game.bet_to_s
+    %br 
+    %div
+      Type:
+      %span.type= @game.type
+    %br
+    %div 
+      Users:
+      %span.users= @game.users_names
+    %hr
+    %div 
+      Total pot:
+      %span.pot= @game.pot_to_s
+    %hr
+    .rolls
+      - @game.rolls.each do |r|
+        %span= r.to_s
+      %span.winner
+        - if r = @game.winning_roll
+          = r.user
+          is a winner!
+        - elsif @game.bank_type? and @game.completed?
+          The bank wins!
+  .col-xs-6
+    %p.game-info{style: info_style}
+      Please note that you can't leave this game once it's full and we will roll a dice for you if you fail to click a button
+    #dice-game-error
+  / .container_12{style: "padding-top:20px;"}
+  .col-xs-6{style: "padding-top: 20px;"}= render 'shared/chatbox'
+:coffee 
+  $ ->
+    dispatcher = window.initializeWebsocketsDispatcher()
+
+    channel = dispatcher.resubscribe("dice_game_#{@game.id}");
+    diceGamesChannel = dispatcher.resubscribe("dice_games")
+
+    addNewRoll = (data) ->
+      $rolls.append("<span>\#{data.text}</span>")
+
+    $info = $("#dice-game-info-#{@game.id}")
+    $rolls = $info.find(".rolls")
+
+    channel.bind('roll', addNewRoll)
+
+    channel.bind('game_completed', (data) ->
+      if data.winner
+        $rolls.append("<span class='winner'>\#{data.winner} is a winner!</span>")
+      else
+        $rolls.append("<span class='winner'>The bank wins!</span>")  
+    )
+
+    updateGameInfo = (data) ->
+      $info.find(".capacity").html(data.capacity)
+      $info.find(".bet").html(data.bet)
+      $info.find(".pot").html(data.pot)
+      $info.find(".users").html(data.users)  
+
+    channel.bind('user_joined', (data) ->
+      updateGameInfo(data)
+      $rolls.append("<span class='green'>\#{data.user} has joined the game.</span>")
+      if data.full
+        $(".roll-link").show() 
+        $("#leave-link").remove()
+        $("#join-link").remove()
+        $rolls.append("<span class='green'>Stage 1: Let the dice game begin! You have 60 seconds to click 'Roll Dice'.</span>")
+    )
+
+    channel.bind('user_left', (data) ->
+      updateGameInfo(data)
+      $rolls.append("<span class='red'>\#{data.user} has left the game.</span>")
+    )
+
+    channel.bind('next_stage', (data) ->
+      $(".roll-link").show() 
+      $rolls.append("<span class='green'>Stage \#{data.stage}:</span>")
+      $rolls.append("<span class='green'>\#{data.users} rolled the same number. They should roll a dice again.</span>") 
+    )
+
+    channel.bind('game_cancelled', (data) ->
+      $("#join-link").remove()
+      $("#leave-link").remove()
+      $("#dice-game-error").text("This game was closed")
+      # window.location = '#{dice_games_url}'
+    )

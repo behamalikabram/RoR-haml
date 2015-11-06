@@ -1,0 +1,7 @@
+.row
+  .col-xs-12= render 'new', host: @host
+  .col-xs-6{style: "margin-top: 20px;"}
+    %p{style: "font-size: 18px;"}
+      %b Your stream link: #{@host.stream_link}
+    %p{style: "font-size: 16px"} If you can see your stream in the box to the right, then your stream link is correct. If not, please change your link using the form above
+  .col-xs-6= render 'shared/iframe', link: @host.stream_link

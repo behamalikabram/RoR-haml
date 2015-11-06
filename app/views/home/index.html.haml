@@ -1,0 +1,18 @@
+/ = render 'shared/bg_text', text: "Runescape's #1 Gambling Website"
+.row
+  .col-lg-12{style: "text-align: center; margin-top: 30px;"}
+    %h1{style: "font-size: 40px;"}
+      %span.blue Welcome
+      to Duel All Day.
+    %p{style: "font-size: 20px;"} 
+      We are a gambling website which offers
+      %span{style: "color: purple"} 50/50 Dice Duels, 
+      where you can gamble against other users.
+
+    %p{style: "font-size: 20px;"} 
+      Also, we have brought back 
+      %span{style: "color: #6d7cb4;"} Frosty Flowers 
+      in Runescape where you can watch Live Hosts plant your flowers live.
+    - unless user_signed_in?
+      %p{style: "margin-top: 20px; font-size: 20px;"} If you want to make bank
+      = link_to "Click here", new_user_registration_path, class: "btn register-btn btn-primary page-modal-show", remote: true

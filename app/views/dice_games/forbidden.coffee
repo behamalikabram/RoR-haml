@@ -1,0 +1,1 @@
+$("#dice-game-error").text("<%= @message.html_safe %>");

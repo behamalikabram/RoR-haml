@@ -1,0 +1,19 @@
+- content_for :title, "About Us"
+.row
+  .col-xs-12{style: "margin-bottom: 20px;"} All information can be found on our youtube channel. Be sure to subscribe to stay up to date with the website
+  .col-xs-6
+    = render "shared/js_player", video_id: "d6HpZOTGf2c"
+  .col-xs-6
+    Check out our trailer for our website to get a little taste of what Duel All Day is about.
+    %br
+    %br
+    Make sure to not miss out on our constant giveaways on livestream every day.
+    %br
+    %br
+    = link_to "Click here", "http://www.twitch.tv/duelallday"
+    to follow us on twitch.tv and join the growing community peaking at almost 6k followers.
+  .col-xs-12
+    Why wait? Begin your gambling adventure now!
+    %br
+    %br
+    = link_to "Deposit rpsgp", deposit_path, class: "btn btn-info page-modal-show", remote: true

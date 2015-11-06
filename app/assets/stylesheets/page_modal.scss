@@ -1,0 +1,49 @@
+#page-modal {
+  .modal-dialog {
+    width: 880px;
+    .modal-content {
+      .modal-header {
+        font-size: 25px;
+        color: grey;
+        font-weight: 700px;
+        .close {
+          float: right;
+          cursor: pointer;
+          }
+        }
+      .modal-body {
+        color: #9ebee3;
+        font-weight: 900;
+        font-size: 18px;
+        min-height: 300px;
+
+        .form {
+          input:not([type="checkbox"]), textarea {
+            background-color: #59599C;
+            color: lightgrey;
+          }
+          textarea {
+            min-width: 845px;
+            height: 200px;
+          }
+          .error-message, .empty-message {
+            background-color: #59599C;
+            color: #880000;
+          }
+        }
+        .leaderboard-header {
+          border: 3px solid #9ebee3;
+          border-bottom: none;
+        }
+        .leaderboard-table{
+          border: 3px solid #9ebee3;
+          border-top: 1px solid #9ebee3;
+          td, th {
+            border: 1px solid #9ebee3;
+            // border-right: 1px solid black;
+          }
+        }
+      }
+    }
+  }
+}

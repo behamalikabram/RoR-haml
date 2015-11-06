@@ -1,0 +1,13 @@
+.container_12
+  .grid_12
+    %h3 Forgot your password?
+    = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, class: "form"}) do |f|
+      = render 'shared/error_messages', object: resource
+      %label.email
+        = f.email_field :email, :autofocus => true, :placeholder => "E-mail:", "data-constraints" => "@Required @Email"
+        %span.empty-message *This field is required.
+        %span.error-message *This is not a valid email.
+      = f.submit style: "display:none;"
+      .btns= link_to "Send me reset password instructions", "#", class: "btn btn-primary submit"
+    .clear
+    = render 'devise/shared/links'

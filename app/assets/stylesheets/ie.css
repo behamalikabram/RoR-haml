@@ -1,0 +1,32 @@
+.lang, .btn, ul.list1 li,  .sf-menu li ul li {
+	behavior:url(js/PIE.htc);
+	position: relative;
+}
+
+.sf-menu li ul, .sf-menu li.sfHover > ul {
+	behavior:url(js/PIE.htc);
+	position: absolute;
+}
+
+
+
+a.gal:hover img {
+	filter:progid:DXImageTransform.Microsoft.Alpha(opacity=20);
+}
+
+#owl .owl-prev:hover, #owl .owl-next:hover {
+	filter:progid:DXImageTransform.Microsoft.Alpha(opacity=50);
+}
+
+.form .invalid .error-message, .form .empty .empty-message {
+	filter:progid:DXImageTransform.Microsoft.Alpha(opacity=100);
+}
+
+.form .error-message, .form .empty-message {
+	background-color: #fff;
+	filter:progid:DXImageTransform.Microsoft.Alpha(opacity=0);
+}
+
+.pay a:hover img {
+	filter:progid:DXImageTransform.Microsoft.Alpha(opacity=50);
+}

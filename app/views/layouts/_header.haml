@@ -1,0 +1,42 @@
+%header
+  .clear
+  .header-title 
+    Runescape's 
+    %span.blue #1
+    Gambling Website
+    %ul.links
+      %li.blue 
+        - if user_signed_in?
+          = link_to "Log out", destroy_user_session_path
+        - else
+          = link_to "Sign up", new_user_registration_path, class: "page-modal-show", remote: true
+          \/
+          = link_to "Log in", new_user_session_path, class: "page-modal-show", remote: true
+      %li Total amount bet: #{stringify_amount @total_bet}
+  .clear
+  .menu_block
+    %ul.menu
+      .logo-container.dropdown-toggle{"data-target-dropdown" => "#header-dropdown"}
+        = link_to (image_tag "logo.png", class: "logo"), root_path
+      .menu-container
+        - if current_user
+          %li
+            = link_to "Bank", wallet_path, class: "page-modal-show", remote: true
+          %li{class: cp(:flower_games)}
+            = link_to "Frosty Flowers", flower_games_path
+          %li{class: cp(:dice_games)}
+            = link_to "Dice Duels & 55x2", dice_games_path
+          %li{class: cp(root_path, as_path: true)}
+            = link_to "Home", root_path
+
+  .clear
+- if user_signed_in?
+  .no-dropdown-buttons{style: ("display:block;" if user_signed_in?)}= render 'layouts/header/dropdown_buttons'
+  #header-dropdown.header-dropdown.dropdown{style: ("display:none;" if user_signed_in?)}
+    %span.dropdown-close.noselect &times;
+    - if user_signed_in? 
+      = render 'layouts/header/user_header_dropdown'
+    - else 
+      = render 'layouts/header/header_dropdown'
+    = render 'layouts/header/dropdown_buttons'
+    .arcus= link_to image_tag("arcus.gif"), "http://www.arcusgold.com/", target: "_blank"

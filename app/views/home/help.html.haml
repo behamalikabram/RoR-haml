@@ -1,0 +1,8 @@
+- content_for :title, "Help"
+.row
+  - %W{eSX53a6Is4Q jJmMCSJukRI DFWnYP4udZc}.each_with_index do |id, i|
+    .col-xs-12.youtube-videos{style: "margin-bottom: 20px;"}
+      %h3 Step #{i+1} - #{help_step_name(i+1)}
+      = render "shared/lazyyt_player", video_id: id
+:javascript
+  $('.js-lazyYT').lazyYT()

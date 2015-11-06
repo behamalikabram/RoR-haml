@@ -1,0 +1,4 @@
+.dropdown-toggle-buttons
+  = link_to image_tag("dropdown-icon.png"), "#", class: "dropdown-toggle-section", "data-dropdown-section" => ".user-info"
+  - if user_signed_in? and current_user.can_read?(Ticket)
+    = link_to image_tag("admin-dropdown-icon.png"), nil, class: "dropdown-toggle-section", "data-dropdown-section" => ".admin-info"

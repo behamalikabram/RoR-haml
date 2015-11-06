@@ -1,0 +1,61 @@
+= render 'shared/bg_text', text: "watch hosts plant your flowers live in game if hosts plant <span class='blue'>blue</span>/<span class='pastel'>pastel</span>/<span class='purple'>purple</span>, you win"
+.row
+  .col-xs-12{style: "margin-bottom: 60px;"}
+    - if @host
+      = render "flower_game_hosts/new", host: @host
+  .col-xs-6
+    .button-group
+      = link_to "Bet on host", new_flower_game_path, class: "btn btn-primary btn-large page-modal-show", remote: true
+      = link_to "#", class: "btn btn-primary btn-large btn-disabled" do 
+        Balance: 
+        %span.green-text= @wallet_amount || @wallet_amount.to_i
+    .white-block-wrapper
+      .white-block-header Current Hosts
+      %table.flower-games-table
+        %thead
+          %th Host
+          %th Bet range
+          %th Chat
+        %tbody.current-hosts= render @hosts
+      .table-footer
+    .white-block-wrapper
+      .white-block-header Past Games
+      %table.flower-games-table{cellspacing: "20"}
+        %thead
+          %th Number
+          %th Bet
+          %th Pot
+          %th User win
+          %th Host
+          %th User
+          %th.dropdown-active-hide Color
+        %tbody.past-games= render @past_games
+      .footer
+  .col-xs-6{style: "margin-bottom: 10px;"}
+    = render "shared/chatbox"
+    = render 'shared/ranks'
+:coffee
+  $ -> 
+    $hosts = $(".flower-games-table .current-hosts")
+    $past = $(".flower-games-table .past-games")
+    dispatcher = window.initializeWebsocketsDispatcher()
+
+    flowerGamesChannel = dispatcher.resubscribe("flower_games")
+    
+    flowerGamesChannel.bind('game_completed', (data) -> 
+      user_won = (if data.user_won then "yes" else "no")
+      $past.prepend("<tr><td>\#{data.id}</td><td>\#{data.bet}</td><td>\#{data.pot}</td><td>\#{user_won}</td><td>\#{data.host}</td><td>\#{data.bettor}</td><td>\#{data.color}</td></tr>")
+      if $past.find("tr").length > 10
+        $past.find("tr").last().remove()
+    )
+    flowerGamesChannel.bind('host_online', (data) -> 
+      console.log("Offline")
+      id = data.id
+      $hosts.append("<tr id='host_\#{id}'><td>\#{data.name}</td><td>\#{data.bet_range}</td><td><a href='/flower_game_hosts/\#{id}/open_chat' data-remote='true'>Open chat</a></td></tr>")
+    )
+    flowerGamesChannel.bind('host_offline', (data) -> 
+      console.log("Online")
+      id = data.id
+      $hosts.find("#host_\#{id}").remove()
+      $("#\#{data.chat}").remove()
+    )

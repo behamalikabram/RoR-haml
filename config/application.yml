@@ -1,0 +1,7 @@
+SOCKET_URL: "localhost:3000/websocket"
+MANDRILL_USERNAME: "duelallday123@gmail.com"
+MANDRILL_PASSWORD: "jZZBOIpkZLqasZLb80uABQ"
+# DOMAIN_NAME: ".lvh.me"
+production:
+  DOMAIN_NAME: ".duelallday.com"
+  SOCKET_URL: "websocket.duelallday.com:3001/websocket"

@@ -1,0 +1,5 @@
+<% unless current_user %>
+  window.location.replace("<%= new_user_session_path %>")
+<% else %>
+  noty({text: "<%= alert %>", type: "error"}).show()
+<% end %>

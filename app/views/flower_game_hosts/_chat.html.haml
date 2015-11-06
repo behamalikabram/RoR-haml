@@ -1,0 +1,29 @@
+- id = chat.channel_name
+.host-chat{id: id}
+  .chat-header 
+    Live Chat with #{host}
+    .close &times;
+    .clear
+  .chat-wrapper
+    .chat-body.chat= render messages
+    - if current_user
+      = form_for ChatMessage.new(chat: chat), remote: true, html: {class: "chat-form host-chat-form", style: "padding:0;"} do |f|
+        .errors
+        = f.hidden_field :chat_id, id: "", class: "message_chat_id"
+        = f.text_area :content, id: '', class: "message_content"
+        = submit_tag "Submit", style: "display: none;"
+  :coffee
+    $chat = $('##{id}')
+    $('##{id} .chat-header').on('click', (e) ->
+      $(this).next(".chat-wrapper").toggle()
+    )
+    $('##{id} .close').on('click', (e) ->
+      $chat.remove()
+    )
+    dispatcher = window.initializeWebsocketsDispatcher()
+
+    chatChannel = dispatcher.resubscribe('#{id}')
+
+    chatChannel.bind('update_chat', (data) ->
+      $("##{id} .chat-body").updateChatContent(data)
+    );

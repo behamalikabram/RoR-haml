@@ -1,0 +1,77 @@
+.row{id: "flower-game-info-#{@game.id}"}
+  .col-xs-6.flower-game-info{style: "font-size: 16px;"}
+    = link_to "Back to Flowers", flower_games_path, class: "btn btn-primary"
+    - style = "display:none" unless current_user.can_update?(@game)
+    = form_for @game, url: complete_flower_game_path(@game), html: {class: "form complete-form disable-after-submit", style: style}, remote: true do |f| 
+      = render 'shared/error_messages', object: @game
+      %label{style: "width: 80px;"}
+        Color: 
+        = f.select :color, FlowerGame::COLORS
+      = link_to "Select", "#", class: "btn btn-primary submit", style: "margin-top: 18px; margin-left: 15px;"
+    - if current_user.can_cancel?(@game)
+      = link_to "Cancel", cancel_flower_game_path(@game), class: "btn decline-button btn-danger", remote: true
+    - if current_user.can_accept?(@game)
+      = link_to "Accept", accept_flower_game_path(@game), class: "btn accept-button btn-success", remote: true
+    %br
+    %br
+    %div
+      Bet:
+      %span= @game.bet_to_s
+    %br 
+    %div 
+      Host:
+      %span= @game.host
+    %br
+    %div 
+      Pot:
+      %span.pot= @game.pot_to_s
+    %br 
+    %div
+      Bettor:
+      %span= @game.bettor
+    %hr
+    .info-block
+      - if @game.completed?
+        %span.flower-info
+          #{@game.host} planted 
+          %span{class: @game.color.downcase}
+            - if @game.color == 'Rainbow'
+              <font color='#FF0000'>R</font><font color='#FFDB00'>a</font><font color='#FFff00'>i</font><font color='#24ff00'>n</font><font color='#00ff00'>b</font><font color='#00ffDB'>o</font><font color='#00ffff'>w</font>
+            - else
+              = @game.color
+            Flower!
+        %span #{@game.bettor} #{@game.user_won? ? "won!" : "lost."}
+      - elsif @game.cancelled?
+        %span.red This game was cancelled
+  .col-xs-6
+    #flower-game-error
+  / .container_12{style: "padding-top:20px;"}
+  .col-xs-6{style: "padding-top: 20px;"}= render 'shared/iframe', link: @game.flower_game_host.stream_link
+:coffee 
+  $ ->
+    dispatcher = window.initializeWebsocketsDispatcher()
+
+    channel = dispatcher.resubscribe("flower_game_#{@game.id}")
+
+    $info = $("#flower-game-info-#{@game.id} .info-block")
+
+    channel.bind('game_completed', (data) ->
+      $info.append("<span class='flower-info'>\#{data.host} planted <span class='\#{data.color.toLowerCase()}'>\#{data.color} Flower!</span></span>")
+      if data.user_won
+        $info.append("<span class='winner'>\#{data.bettor} won!</span>")
+      else
+        $info.append("<span>\#{data.bettor} lost.</span>")    
+    )
+
+    channel.bind('game_accepted', (data) ->
+      $(".decline-button").hide()
+      $(".accept-button").hide()
+      $(".complete-form").show() if #{current_user == @game.host}
+      $info.append("<span class='green'>\#{data.invited_user} accepted the game!</span>") 
+    )
+
+    channel.bind('game_cancelled', (data) ->
+      $(".decline-button").hide()
+      $(".accept-button").hide()
+      $info.append("<span class='red'>This game was cancelled</span>")
+    )

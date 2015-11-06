@@ -1,0 +1,32 @@
+var currentTriggerIntervals = {};
+window.initializeWebsocketsDispatcher = function() {
+  var dispatcher;
+  dispatcher = (window.dispatcher || new WebSocketRails("<%= ENV['SOCKET_URL'] %>"));
+
+  if(window.dispatcher) {
+    return dispatcher;
+  };
+
+  window.dispatcher = dispatcher;
+
+
+  dispatcher.resubscribe = function(channel) {
+    this.unsubscribe(channel);
+    return this.subscribe(channel);
+  }
+
+  dispatcher.resubscribe_private = function(channel) {
+    this.unsubscribe(channel);
+    return this.subscribe_private(channel);
+  }
+
+  dispatcher.setTriggerInterval = function(event, interval, object, success, failure) {
+    object = typeof object !== 'undefined' ? object : {}
+    disp = this;
+    clearInterval(currentTriggerIntervals[event]);
+    id = setInterval(function() {disp.trigger(event, object, success, failure)}, interval);
+    currentTriggerIntervals[event] = id;  
+    return id;
+  }
+  return dispatcher;
+};

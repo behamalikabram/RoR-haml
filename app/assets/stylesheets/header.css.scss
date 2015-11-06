@@ -1,0 +1,239 @@
+header {
+  // box-shadow: 3px 3px 3px #888888;
+  height: 150px;
+  position: relative;
+  z-index: 999;
+}
+.header-title {
+  background-color: #151515;
+  height: 30px;
+  padding: 5px 30px;
+  border-bottom: 1px solid white;
+  ul.links {
+    float: right;
+    list-style: none;
+    li {
+      float: right;
+    }
+    li+li {
+      margin-right: 30px;
+    }
+    li+li:after {
+      content: "";
+      display: block;
+      position: relative;
+      width: 1px;
+      height: 20px;
+      left: 108%;
+      top: -22px;
+      background-color: grey; 
+    }
+  }
+}
+
+.menu_block  {
+  border-bottom: 1px solid white;
+  position: relative;
+  text-align: center;
+  z-index: 99999;
+  // margin-bottom: 100px;
+  background-color: #141517;
+  color: white;
+   ul.menu {
+    width: 100%;
+    position: relative;
+    height: 100px;
+    list-style: none;
+
+    .logo-container {
+      float: left;
+      margin-left: 30px;
+      // width: 10%;
+      height: 100%;
+    }
+
+    .menu-container {
+
+      li {
+        text-align: center;
+        font: 20px/30px "Source Sans Pro";
+        font-weight: 700;
+        display: block;
+        float: right;
+        width: 250px;
+        // margin-left: 10%;
+        height: 100px;
+        text-transform: uppercase;
+        padding-top: 35px;
+      }
+
+      li.current {
+        background-color: rgb(100, 100, 219);
+      }
+
+      li.current:after {
+        border-color: #6464DB transparent;
+        border-style: solid;
+        border-width: 15px 10px 0;
+        bottom: -15px;
+        content: "";
+        display: block;
+        position: relative;
+        width: 0;
+        bottom: auto;
+        left: auto;
+        right: -50%;
+        top: 35px;
+      }
+
+      li.total-bet {
+        .bet-text {
+          text-decoration: underline;
+        }
+        .bet-amount {
+          margin-left: 10px;
+          color: #9ebee3;
+        }
+      }
+      li:not(.current)+li:not(.current):after {
+        content: "";
+        display: block;
+        position: relative;
+        top: -48px;
+        left: 100%;
+        width: 1px;
+        height: 65px;
+        background-color: #337ab7;  
+      }
+    }
+  } 
+}
+
+.dropdown-toggle-buttons {
+  a {
+    display: block;
+  }
+  a + a {
+    margin-top: 3px;
+  } 
+}
+
+.no-dropdown-buttons {
+  display: none;
+  .dropdown-toggle-buttons{
+    width: 50px;
+    margin-top: 10px;
+    position: absolute;
+  }
+}
+
+.header-dropdown {
+  font-family: "Source Sans Pro";
+  background-color: white;
+  z-index: 100;
+  width: 250px;
+  position: absolute;
+  top: 150px;
+  left: 10px;
+  height: 700px;
+  color: black;
+  .dropdown-close {
+    font-size: 25px;
+    font-weight: 700;
+    float: right;
+    margin: 5px 10px 0 0;
+    color: grey;
+    cursor: pointer;
+  }
+
+  .admin-info {
+    display: none;
+  }
+  .arcus {
+    position: absolute;
+    bottom: 0;
+    width: 250px;
+  }
+
+  section {
+    border-bottom: 1px solid lightgrey;
+    padding-bottom: 5px;
+    width: 220px;
+    margin: 0 auto;
+  }
+
+  .user-dropdown section:not(.title) {
+    font-size: 20px;
+    text-transform: uppercase;
+    color: #62453a;
+    padding: 20px 0;
+    font-weight: 900;
+    .info {
+      // float: right;
+      display: inline-block;
+      text-transform: none;
+      font-weight: 900;
+      font-size: 17px;
+      margin-top: 3px;
+      margin-left: 5px;
+      color: #141517;
+    }
+
+    .tickets-count {
+      font-size: 19px;
+      color: red;
+      position: relative; 
+      top: -13px;
+    }
+
+    .info.username {
+      // margin-right: 10%;
+    }
+
+    .info.info-button{
+      margin: 0;
+      .btn {
+        min-width: 90px;
+      }
+    }
+
+  }
+
+  .title {
+    font-size: 25px;
+    margin-top: 10px;
+    color: grey;
+    padding-bottom: 10px;
+  }
+  .buttons {
+    padding-top: 10px;
+    padding-bottom: 15px;
+    text-align: center;
+    .btn + .btn {
+      margin-left: 20px;
+    }
+  }
+  .buttons.single-button {
+    padding-top: 5px;
+    padding-bottom: 20px;
+  }
+
+  .copy {
+    color: grey;
+    text-align: center;
+    p.strong {
+      font-weight: 900;
+      margin: 10px 0;
+    }
+    border-bottom: 2px solid DarkGray;
+  }
+
+  .dropdown-toggle-buttons {
+    float: right;
+    position: absolute;
+    left: 250px;
+    top: 40px;
+    // width: 100%;
+  }
+}
+

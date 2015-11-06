@@ -1,0 +1,8 @@
+%tr
+  %td= flower_game.id
+  %td= flower_game.bet_to_s
+  %td= flower_game.pot_to_s
+  %td= yesno(flower_game.user_won?)
+  %td= flower_game.host
+  %td= flower_game.bettor
+  %td.dropdown-active-hide= flower_color_text(flower_game)

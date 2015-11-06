@@ -1,0 +1,12 @@
+%h2 User #{@ticket.user} reported a ticket.
+%p Ticket info: 
+%p description: #{@ticket.to_s}
+%p id: #{@ticket.id}
+%p chat host: #{@ticket.chat.host}
+%p opened at: #{@ticket.created_at}
+
+Chat log: 
+- @chat_messages.each do |m|
+  .message{style: "font-weight: bold;"}
+    %span.from #{m.user}:
+    %span.message-content= m

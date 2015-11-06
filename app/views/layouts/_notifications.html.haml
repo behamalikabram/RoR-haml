@@ -1,0 +1,3 @@
+- if current_user
+  .notifications-block{id: "user_notifications", class: ("hide" unless @any_new_notifications)}
+    = link_to "You have a new chat! Click here to view", chats_path, class: "btn btn-primary"

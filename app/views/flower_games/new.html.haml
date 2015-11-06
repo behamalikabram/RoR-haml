@@ -1,0 +1,16 @@
+-content_for :title, "Create Flower Game"
+.row
+  .col-xs-6
+    = form_for(@game, html: {class: "form disable-after-submit page-modal-show"}, remote: true) do |f|
+      = render 'shared/error_messages', object: @game
+      %label
+        - if FlowerGameHost.host_online?(current_user)
+          = f.text_field :bettor_username, placeholder: "Bettor", "data-constraints" => "@Required"
+        - else 
+          = f.text_field :host_username, placeholder: "Host", "data-constraints" => "@Required"
+        %span.empty-message *This field is required.
+      %label.new-line{style: "width: 200px;"}
+        = f.text_field :string_bet, "data-constraints" => "@Required", :placeholder => "Bet"
+        %span.empty-message *This field is required.
+      = f.submit style: "display:none;"
+      .btns= link_to "Create game", "#", class: "btn btn-primary submit"

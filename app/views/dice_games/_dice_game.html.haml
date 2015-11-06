@@ -1,0 +1,9 @@
+- completed = dice_game.completed?
+%tr.clickable{"data-url" => dice_game_path(dice_game), id: "dice-game-#{dice_game.id}"}
+  %td= dice_game.id
+  %td= dice_game.type
+  - unless completed
+    %td= dice_game.users_capacity
+  %td= dice_game.bet_to_s
+  %td= dice_game.pot_to_s
+  %td= completed ? dice_game.winner : dice_game.users_names

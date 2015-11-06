@@ -1,0 +1,29 @@
+- type = @ticket.type
+- cap_type = type.capitalize
+- content_for :title, cap_type
+-# Generate random id for modal
+- form_id = "#{type}-form-#{rand(1000)}"
+.row
+  .col-xs-12 You can use shortcuts such as "m" or "k" while entering amount(not case-sensitive). Example: 100k, 1m, 100M
+  .col-xs-6
+    = form_for(@ticket, html: {class: "form #{type}-form page-modal-show disable-after-submit", id: form_id}, remote: true) do |f|
+      = render 'shared/error_messages', object: @ticket
+      = f.hidden_field :type
+      .btns.fright.inline-submit= link_to cap_type, "#", class: "btn btn-info submit"
+      %label.amount
+        = f.text_field :string_amount, :placeholder => "Amount:", "data-constraints" => "@Required"
+        %span.empty-message *This field is required.
+      - if @ticket.currency_required?
+        %label.currency.new-line
+          Select currency
+          = f.select :currency, Ticket::ALLOWED_CURRENCIES
+      - if @ticket.recipient_required?
+        %label.recipient.new-line
+          = f.text_field :recipient_user_username, :placeholder => "Recipient:", "data-constraints" => "@Required"
+          %span.empty-message *This field is required.
+      %label.message
+        = f.text_area :message, :placeholder => "Message:"
+      = f.submit style: "display:none;"
+
+:javascript
+  $('##{form_id}').TMForm({ownerEmail:'#'})

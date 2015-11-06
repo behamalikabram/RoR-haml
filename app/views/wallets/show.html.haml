@@ -1,0 +1,31 @@
+- provide :title, "Banker"
+
+.row
+  .col-xs-12
+    %h1
+      =  number_with_delimiter(@wallet.value, delimiter: " ")
+      GP
+
+    .deposit-buttons
+      = link_to "Deposit RSGP", deposit_path, class: "btn btn-info page-modal-show", remote: true
+      = link_to "Withdraw RSGP", withdraw_path, class: "btn btn-info page-modal-show", remote: true
+      = link_to "Transfer", transfer_path, class: "btn btn-info page-modal-show", remote: true
+    %br
+    %br
+    %h3 Last 50 ticket requests:
+    %table.tickets{cellspacing: "20"}
+      %thead
+        %th
+        %th
+        %th
+        %th
+      %tbody
+        - @tickets.each do |t|
+          %tr
+            %td
+              = time_ago_in_words(t.created_at)
+              ago
+            %td= t.to_s
+            %td= t.state
+            - if current_user.can_cancel?(t)
+              %td= link_to "cancel", cancel_ticket_path(t)

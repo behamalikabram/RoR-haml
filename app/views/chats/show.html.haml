@@ -1,0 +1,40 @@
+- ticket = @chat.ticket
+- chat_id = "user_chat_#{@chat.id}"
+- user_is_host = (@chat.host == current_user)
+.row
+  .col-xs-6
+    - if current_user.can_accept?(ticket)
+      = form_tag accept_ticket_path(ticket), method: :get, class: "form", style: "width: 100px;" do 
+        - if ticket.deposit_type? and ticket.currency == "07"
+          %label{style: "min-height: 10px;"}
+            Rate
+            = select_tag :rate, options_for_select([5,6,7,8,9,10], params[:rate])
+        = submit_tag "Submit", style: "display: none;"
+        = link_to "Complete ticket and close chat", '#', class: "btn btn-primary submit", remote: !user_is_host
+      OR
+      %br
+    - if current_user.can_cancel?(ticket)
+      = link_to "Cancel", cancel_ticket_path(ticket), class: "btn btn-danger", remote: !user_is_host
+    - if current_user.can_report?(ticket)
+      = link_to "Report", report_ticket_path(ticket), class: "btn btn-warning report-button disable-after-click", remote: true
+      .clear
+    .report-info.red{style: "font-size: 16px;"}
+    %h4 Participants: #{@chat.users_list.join(", ")}
+
+  .col-xs-6
+    %p
+      %b{style: "font-size: 15px;"} Ticket - #{ticket.type} #{number_with_delimiter(ticket.amount, delimiter: " ")}, opened by #{ticket.user}
+    = render 'shared/chatbox', message: @message, messages: @chat.messages, id: chat_id
+:coffee
+  $ -> 
+    channel = '#{chat_id}'
+    dispatcher = window.initializeWebsocketsDispatcher()
+    chatChannel = dispatcher.resubscribe(channel)
+    chatChannel.bind('update_chat', (data) ->
+      $("#" + channel + " .chat-content").updateChatContent(data)
+    );
+
+    chatChannel.bind("closed", (data) ->
+      unless #{user_is_host}
+        window.location = '#{wallet_url}'
+    )

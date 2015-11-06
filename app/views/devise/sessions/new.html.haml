@@ -1,0 +1,17 @@
+- provide :title, "Login"
+
+.row
+  .col-xs-12{style: "margin-top: 30px;"}
+    = form_for(resource, as: resource_name, url: session_path(resource_name), html: {class: "form"}) do |f|
+      = render 'shared/error_messages', object: resource
+      %label.login
+        = f.text_field :login, :autofocus => true, :placeholder => "Login:", "data-constraints" => "@Required"
+        %span.empty-message *This field is required.
+      %label.password
+        = f.password_field :password, :autocomplete => "off", "data-constraints" => "@Required @Length(min=6,max=128)", :placeholder => "Password"
+        %span.empty-message *This field is required.
+        %span.error-message *Password is too short.
+      = f.submit style: "display:none;"
+      .btns= link_to "Sign in", "#", class: "btn btn-primary submit"
+    .clear
+    = render 'devise/shared/links'

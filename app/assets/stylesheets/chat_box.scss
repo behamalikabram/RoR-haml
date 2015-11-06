@@ -1,0 +1,224 @@
+.chat-box {
+    word-wrap: break-word;
+    background-color: #fff;    
+    text-align: center; 
+    .chat-content {
+        height: 300px;
+        overflow-y: scroll;
+        padding: 0 10px;
+    }
+    font-family: "Source Sans Pro";
+}
+
+.white-block-wrapper.chatbox-wrapper {
+    border: 5px solid #70b8f1;
+    .white-block-header {
+        border-bottom: 1px solid #70b8f1;
+    }
+}
+
+// Messages
+.chat {
+    overflow-y: scroll;
+    text-align: center;
+    > .message {
+        text-align: left;
+        margin-left: 4px;
+        color: black;
+        .from {
+            color: #00CD00;
+        } 
+
+        .message-content {
+            .number {
+                color: red;
+            }
+            .money {
+                color: #32CD32;
+            }
+        }
+    }
+
+    .message {
+        .admin_command {
+            color: #6d7cb4;
+        }
+        .dice_roll, .dice_game_winner {
+            font-style: italic;
+        }
+        .dice_roll {
+            color: #4B0082;
+        }
+        .dice_game_winner {
+            color: #4B0082;
+        }
+    }
+
+    .host-message .from {
+        background: asset-url('chat_icons/host.png') no-repeat left center;
+        color: #CD0000;
+        padding-left: 19px !important;
+    }
+    .trader-message .from {
+        background: asset-url('chat_icons/trader.png') no-repeat left center;
+        color: #FF7F00;
+        padding-left: 19px !important;
+    }
+    .message:not(.user-message) .from {
+        padding-left: 16px;
+    }
+
+    .admin-message .from {
+        background: asset-url('chat_icons/admin.png') no-repeat left center;
+        color: #6d7cb4;
+    }
+    .moderator-message .from {
+        background: asset-url('chat_icons/moderator.png') no-repeat left center;
+        color: skyblue;
+    }
+
+    // User badges
+    .user-1-message .from {
+        background: asset-url("chat_icons/user-1.png") no-repeat left center
+    }
+
+    .user-2-message .from {
+        background: asset-url("chat_icons/user-2.png") no-repeat left center
+    }
+
+    .user-3-message .from {
+        background: asset-url("chat_icons/user-3.png") no-repeat left center
+    }
+
+    .user-4-message .from {
+        background: asset-url("chat_icons/user-4.png") no-repeat left center
+    }
+
+    .user-5-message .from {
+        background: asset-url("chat_icons/user-5.png") no-repeat left center
+    }
+
+    .user-6-message .from {
+        background: asset-url("chat_icons/user-6.png") no-repeat left center
+    }
+
+    .user-7-message .from {
+        background: asset-url("chat_icons/user-7.png") no-repeat left center
+    }
+
+    .user-8-message .from {
+        background: asset-url("chat_icons/user-8.png") no-repeat left center
+    }
+
+    .user-9-message .from {
+        background: asset-url("chat_icons/user-9.png") no-repeat left center
+    }
+}
+
+.online-box {
+    display: none;
+    height: 200px;
+    background: asset_url("chat_box/background.png") repeat;
+    width: 200px;
+}
+
+.chat-form:not(.host-chat-form) {
+    textarea {
+        width: 100%;
+        height: 100px;
+        // border: 5px solid #70b8f1;
+        float: none;
+        padding: 15px 10px;
+        font: 18px/20px "Source Sans Pro";
+        border-top: 1px solid #70b8f1;
+    }
+    label.message {
+        min-height: 30px;
+        margin: 5px 0;
+    }
+}
+// Hosts chat 
+.host-chat {
+    float: right;
+    position: fixed;
+    bottom: 0;
+    right: 10px;
+    width: 300px;
+    z-index: 10000;
+    .chat-body {
+        border: 5px solid #6d7cb4;
+        border-top: none;
+        border-bottom: 2px solid #6d7cb4;
+        text-align: center; 
+        // width: 300px;
+        height: 200px;
+        word-wrap: break-word;
+        background-color: white;
+    }
+    .chat-header {
+        -moz-border-radius: 0px;
+        -webkit-border-radius: 7px 7px 0px 0px;
+        border-radius: 7px 7px 0px 0px; 
+        background-color: #6d7cb4;
+        color: white;
+        height: 30px;
+        padding-top: 5px;
+        padding-left: 10px;
+        cursor: pointer;
+        position: relative;
+        .close {
+            position: relative;
+            left: 260px;
+            bottom: 35px;
+            height: 25px;
+            font-size: 31px;
+            margin-right: 10px;
+        }
+    }
+
+    .host-chat-form {
+        textarea {
+            border: 5px solid #6d7cb4;
+            border-top: none;
+            background-color: white;
+            width: 300px;
+            resize: none;
+            color: black;
+            padding: 10px;
+        }
+    }
+}
+
+.host-chat+.host-chat {
+    margin-right: 310px;
+}
+
+.ranks-info {
+    text-transform: uppercase;
+    border: 4px solid #E3bb4f;
+    padding: 4px 0;
+    margin-bottom: 15px;
+    .info-header {
+        font-size: 28px;
+        text-align: center;
+    }
+    .block {
+        padding: 10px 40px;
+        border-top: 1px solid #E3bb4f;
+        border-bottom: 1px solid #E3bb4f;
+        font-size: 17px;
+        min-height: 90px;
+        img {
+            padding-top: 4px;
+            padding-right: 5px;
+        }
+        .img-block {
+            float: left;
+            width: 100px;
+            margin-right: 10px;
+        }
+    }
+    .block:last-child {
+        border-bottom: none;
+    }
+}

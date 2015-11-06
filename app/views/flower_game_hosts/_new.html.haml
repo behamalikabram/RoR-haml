@@ -1,0 +1,33 @@
+= form_for host, html: {class: "form"} do |f|
+  = render 'shared/error_messages', object: host
+  - if @on_test_stream_page or params[:redirect_to]
+    = hidden_field_tag :redirect_to, test_stream_flower_game_host_path(host)
+  .host-info
+    .host-fields
+      %label
+        = f.text_field :string_min_bet, value: host.min_bet_to_s, placeholder: "Minimum bet", "data-constraints" => "@Required"
+        %span.empty-message *This field is required.
+      %label
+        = f.text_field :string_max_bet, value: host.max_bet_to_s, placeholder: "Maximum bet", "data-constraints" => "@Required"
+        %span.empty-message *This field is required.
+      .clear
+    You have to provide 'embed' link to your stream. You can find it in the stream description(share) in most cases. Example for twitch: http://www.twitch.tv/duelallday/embed - 
+    %span.blue note '/embed' part after channel name
+    - if !@on_test_stream_page and !host.new_record?
+      %p
+        You can verify if your stream link is correct by 
+        %b= link_to "clicking here", test_stream_flower_game_host_path(host)
+  .host-buttons
+    %label 
+      = f.text_field :stream_link, placeholder: "Link to your stream", "data-constraints" => "@Required"
+      %span.empty-message *This field is required.
+    - link = host.online? ? "Update" : "Go online"
+    / .clear
+    .btn-group
+      = link_to link, "#", class: "btn btn-primary submit create-host"
+      - if @on_test_stream_page
+        = link_to "Back to flowers", flower_games_path, class: "btn btn-primary" 
+      - if host.online?
+        = link_to "New Flower", new_flower_game_path, class: "btn btn-primary page-modal-show", remote: true
+        = link_to "Go offline", go_offline_flower_game_host_path(host), class: "btn btn-primary"
+  = f.submit style: "display:none;"

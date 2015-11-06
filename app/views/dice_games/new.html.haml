@@ -1,0 +1,25 @@
+- content_for :title, "Create Dice Game"
+.row
+  .col-xs-6
+    = form_for(@game, html: {class: "form disable-after-submit page-modal-show"}, remote: true) do |f|
+      = render 'shared/error_messages', object: @game
+      %label.new-line{style: "width: 300px;"}
+        = f.text_field :string_bet, "data-constraints" => "@Required", :placeholder => "Bet", style: "width: 200px;"
+        .btns.fright.inline-submit= link_to "Create game", "#", class: "btn btn-primary submit"
+        %span.empty-message *This field is required.
+      %label.new-line
+        Game Type:
+        = f.select :type, DiceGame::TYPES
+      %label.new-line.capacity
+        Players:
+        = f.select :capacity, DiceGame::CAPACITY, style: "margin-left: 20px;"
+      = f.submit style: "display:none;"
+  .col-xs-6
+    %p.darkblue
+      Please note that you must leave created games manually by clicking "Leave" button
+    %br
+    %br
+    %p
+      You can't leave a duel once maximum number of participants has been reached.
+      If you fail to roll by yourself within 60 seconds, the system rolls for you.
+:coffee 

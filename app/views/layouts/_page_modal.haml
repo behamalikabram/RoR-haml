@@ -1,0 +1,10 @@
+.modal.fade#page-modal
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %btn.close{"data-dismiss" => "modal"}
+          %span{"aria-hidden" => "true"} &times;
+          %span.sr-only Close
+        %h4.modal-title Loading...
+        .clear
+      .modal-body.loading

@@ -1,0 +1,19 @@
+.notifications-block {
+  height: 30px;
+  margin: 0;
+  padding: 0;
+  position: fixed;
+  left: 20px;
+  bottom: 20px;
+  width: 310px;
+  z-index: 10000000;
+  color: white;
+  cursor: pointer;
+  border-radius: 10px;
+  text-align: center;
+  .text {
+    font-family: "Racing Sans One";
+    font-size: 15px;
+    margin-top: 15px;
+  }
+}

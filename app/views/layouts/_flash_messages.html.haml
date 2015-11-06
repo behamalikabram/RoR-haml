@@ -1,0 +1,11 @@
+#flash.flash-messages
+  - flash.each do |type, msg|
+    - type = type.to_s
+
+    - if type == "alert"
+      - type = "error"
+    - elsif type == "notice"
+      - type = "warning"
+
+    .alert{"data-alert-type" => type}
+      %span= msg

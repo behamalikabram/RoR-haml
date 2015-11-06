@@ -1,0 +1,27 @@
+@import url(//fonts.googleapis.com/css?family=Oswald);
+.dice-game-info {
+  .rolls {
+    background-color: #e4e4e4; 
+    margin-top: 20px;
+    min-height: 200px;
+    color: black;
+    span {
+      margin: 8px 5px 5px 5px;
+      display: block;
+    }
+    span.winner {
+      color: #CC6600;
+    }
+    span.green {
+      color: green;
+    }
+    span.red {
+      color: red;
+    }
+  }
+}
+
+#dice-game-error {
+  color: red;
+  font-size: 16px;
+}

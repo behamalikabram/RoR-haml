@@ -1,0 +1,27 @@
+- id ||= "general-chat"
+- message ||= ChatMessage.new
+- messages ||= ChatMessage.no_chat.last(20)
+/ - cls = "frost-chat-box" if @on_flowers_page
+.white-block-wrapper.chatbox-wrapper
+  .white-block-header Chatbox
+  .chat-box{id: id}
+    / %h3{style: "padding-top: 10px; color: black;"} CHAT BOX
+    .chat-content.chat= render messages
+  - if current_user
+    = form_for message, remote: true, html: {class: "form chat-form", style: "padding:0;"} do |f|
+      .errors
+      = f.hidden_field :chat_id, class: "message_chat_id"
+      / %span.empty-message *This field is required.
+      = f.text_area :content, class: "message_content"
+      %label.message
+        = check_box_tag "ajax-submit-chat-form", false, false
+        Check here if you can't send any messages and try again
+-#- if current_user
+-#  .chat-buttons= render 'shared/deposit_buttons'
+/ - if online_users 
+/   %div{style: "float:right"}
+/     .show-online{style: "float:right;cursor: pointer;"}
+/       Show online users
+/     .online-box.chat= render online_users
+:coffee 
+  $(".show-online").click(-> $(".online-box").toggle();)

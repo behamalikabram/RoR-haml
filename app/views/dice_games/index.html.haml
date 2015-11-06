@@ -1,0 +1,66 @@
+= render 'shared/bg_text', text: "click create dice game to either play 55x2 against the bank OR dice duel against anyone"
+.row
+  .col-xs-6
+    .button-group
+      = link_to "Create dice game", new_dice_game_path, class: "btn btn-primary btn-large page-modal-show", remote: true
+      = link_to "#", class: "btn btn-primary btn-large btn-disabled" do 
+        Balance: 
+        %span.green-text= @wallet_amount || @wallet_amount.to_i
+    .white-block-wrapper
+      .white-block-header Current Games
+      %table.dice-games-table{cellspacing: "20", style: "margin-bottom: 30px;"}
+        %thead
+          %th Number
+          %th Type
+          %th /
+          %th Bet
+          %th Pot
+          %th Players
+        %tbody.current-games= render @current_games
+    .white-block-wrapper
+      .white-block-header Past Games
+      %table.dice-games-table{cellspacing: "20"}
+        %thead
+          %th Number
+          %th Type
+          %th Bet
+          %th Pot
+          %th Winner
+        %tbody.past-games= render @past_games
+    - if current_user and current_user.is_admin?
+      %p.medium-font 
+        Total commission on completed duels this week: 
+        = DiceGame.total_week_commission
+  .col-xs-6
+    = render "shared/chatbox"
+    = render 'shared/ranks'
+:coffee
+  $ -> 
+    dispatcher = window.initializeWebsocketsDispatcher()
+    $curr = $(".dice-games-table .current-games")
+    $past = $(".dice-games-table .past-games")
+
+    diceGamesChannel = dispatcher.resubscribe("dice_games")
+    diceGamesChannel.bind('new_game', (data) ->
+      id = data.id
+      $curr.prepend("<tr id='dice-game-\#{id}' data-url='/dice_games/\#{id}' class='clickable'><td>\#{id}</td><td>\#{data.type}</td><td>\#{data.capacity}</td><td>\#{data.bet}</td><td>\#{data.pot}</td><td>\#{data.users}</td></tr>")
+    )
+
+    updateGame = (data) ->
+      id = data.id
+      $curr.find("#dice-game-\#{id}").replaceWith("<tr id='dice-game-\#{id}' data-url='/dice_games/\#{id}' class='clickable'><td>\#{id}</td><td>duel</td><td>\#{data.capacity}</td><td>\#{data.bet}</td><td>\#{data.pot}</td><td>\#{data.users}</td></tr>")
+
+    diceGamesChannel.bind('user_joined', updateGame)
+    diceGamesChannel.bind('user_left', updateGame)
+    
+    diceGamesChannel.bind('game_completed', (data) -> 
+      id = data.id
+      $curr.find("#dice-game-\#{id}").remove()
+      $past.prepend("<tr id='dice-game-\#{id}' data-url='/dice_games/\#{id}' class='clickable'><td>\#{id}</td><td>\#{data.type}</td><td>\#{data.bet}</td><td>\#{data.pot}</td><td>\#{data.winner}</td></tr>")
+      if $past.find("tr").length > 10
+        $past.find("tr").last().remove()
+    )
+
+    diceGamesChannel.bind("game_cancelled", (data) ->
+      $curr.find("#dice-game-\#{data.id}").remove()
+    )
